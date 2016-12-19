@@ -3,6 +3,9 @@ ACIXL is an alternate excel based user interface used to configure Cisco ACI net
 
 Excel allows bulk configuration to be directly pushed to the APIC controller through the use of buttons. No programming, or manual execution of scripts is required as all actions are performed directly from excel.
 
+DataNitro plugin for excel is required and can be obtained from:
+https://datanitro.com/
+
 ===================================
 How to Install
 ===================================
