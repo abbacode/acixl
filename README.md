@@ -9,7 +9,7 @@ https://datanitro.com/
 ===================================
 How to Install
 ===================================
-1. Unzip all contents into precise folder location:  C:\ACI\
+1. Unzip all contents into precise folder location:  C:\acixl\
 
 2. Install DataNitro (30 day trial available @ https://datanitro.com/)
 
