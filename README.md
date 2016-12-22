@@ -13,7 +13,7 @@ Example Screenshots
 How the control panel looks like:
 ![Control Panel](screenshots/control panel.PNG)
 
-How the table appears:
+How the tables appears:
 ![Table](screenshots/table_example.PNG)
 
 An example of pushing a successful policy:
