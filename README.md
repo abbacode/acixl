@@ -6,6 +6,25 @@ Excel allows bulk configuration to be directly pushed to the APIC controller thr
 DataNitro plugin for excel is required and can be obtained from:
 https://datanitro.com/
 
+
+====================
+Example Screenshots
+====================
+How the control panel looks like:
+![Control Panel](screenshots/control panel.PNG)
+
+How the table appears:
+![Table](screenshots/table_example.PNG)
+
+An example of pushing a successful policy:
+![Alt attribute text Here](screenshots/execute_example_pass.PNG)
+
+An example of pushing a partially successful policy:
+![Alt attribute text Here](screenshots/execute_example_partial.PNG)
+
+An example of pushing a failed policy:
+![Alt attribute text Here](screenshots/execute_example_failure.PNG)
+
 ===================================
 How to Install
 ===================================
@@ -41,7 +60,6 @@ Instructions are as follows:
 2. Open up acixl.xlsm workbook and goto the DataNitro tab
 3. Click 'remove' for every .py file
 4. Click 'import' and manually add every .py file in the folder/sub-folders
-
 
 ================
 Todo
