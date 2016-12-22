@@ -28,7 +28,7 @@ An example of pushing a failed policy:
 ===================================
 How to Install
 ===================================
-1. Unzip all contents into precise folder location:  C:\acixl\
+1. Unzip all contents into precise folder location:  C:\acixl\  (i.e aci/excel.py must be in this root directory)
 
 2. Install DataNitro (30 day trial available @ https://datanitro.com/)
 
