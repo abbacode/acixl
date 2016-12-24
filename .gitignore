@@ -218,6 +218,8 @@ pip-log.txt
 
 #Pycharm
 *.pyc
+*.xml
+*.iml
 
 #Excel
 *.xlsm

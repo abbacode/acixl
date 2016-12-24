@@ -43,10 +43,16 @@ class lazy_property(object):
         return value
 
 
-
-# Class must be instantiated with APIC IP address, username, and password
-# the login function returns the APIC c ookies.
 class AciHandler(object):
+    """
+    Class for handling all ACI methods.
+    Examples include:
+        aci = AciHandler()
+        aci.login()
+        aci.tenant_policies.<method>
+        aci.fabric_policies.<method>
+        aci.fabric_access.<method>
+    """
     def __init__(self, apic='', user='', pword=''):
         self.apic = apic
         self.user = user
