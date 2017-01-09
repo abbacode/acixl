@@ -1,8 +1,8 @@
 import requests
 import json
 import sys
-import collections
 import excel
+from collections import OrderedDict
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 # Disable urllib3 warnings
@@ -47,11 +47,11 @@ class AciHandler(object):
     """
     Class for handling all ACI methods.
     Examples include:
-        aci = AciHandler()
-        aci.login()
-        aci.tenant_policies.<method>
-        aci.fabric_policies.<method>
-        aci.fabric_access.<method>
+        aci = AciHandler()              # initalise handler
+        aci.login()                     # authenticate with APIC
+        aci.tenant_policies.<method>()  # execute tenant policy
+        aci.fabric_policies.<method>()  # execute fabric policy
+        aci.fabric_access.<method>()    # execute fabric access
     """
     def __init__(self, apic='', user='', pword=''):
         self.apic = apic
@@ -61,15 +61,15 @@ class AciHandler(object):
 
     @lazy_property
     def tenant_policies(self):
-        return TenantHandler(self.apic,self.cookies)
+        return TenantHandler(self.apic, self.cookies)
 
     @lazy_property
     def fabric_policies(self):
-        return FabricPolicyHandler(self.apic,self.cookies)
+        return FabricPolicyHandler(self.apic, self.cookies)
 
     @lazy_property
     def fabric_access(self):
-        return FabricAccessHandler(self.apic,self.cookies)
+        return FabricAccessHandler(self.apic, self.cookies)
 
     def login(self, show_auth_status=False):
         # Load login json payload
@@ -83,10 +83,8 @@ class AciHandler(object):
             }}
         }}
         '''.format(user=self.user, pword=self.pword)
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
         s = requests.Session()
-        cookies = None
-        status = 0
         if show_auth_status:
             excel.show_auth_attempt_msg()
 
@@ -99,7 +97,6 @@ class AciHandler(object):
             status = r.status_code
             # Capture the APIC cookie for all other future calls
             self.cookies = r.cookies
-
         except Exception as e:
             status = 999
         if show_auth_status:
@@ -142,7 +139,7 @@ class TenantHandler(object):
         }}
         '''.format(**kwargs)
 
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
         s = requests.Session()
         try:
             r = s.post('https://{}/api/node/mo/uni/tn-{}.json'
@@ -171,7 +168,7 @@ class TenantHandler(object):
             }}
         }}
         '''.format(**kwargs)
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
         s = requests.Session()
         try:
             r = s.post('https://{}/api/node/mo/uni/tn-{}/ctx-{}.json'
@@ -198,7 +195,7 @@ class TenantHandler(object):
                    }}
                }}
         '''.format(**kwargs)
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
         s = requests.Session()
         try:
             r = s.post('https://{}/api/node/mo/uni/tn-{}/ap-{}.json'
@@ -242,7 +239,7 @@ class TenantHandler(object):
             }}
         }}
         '''.format(**kwargs)
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
         s = requests.Session()
         try:
             r = s.post('https://{}/api/node/mo/uni/tn-{}/BD-{}.json'
@@ -258,16 +255,7 @@ class TenantHandler(object):
         return status
 
     def create_subnet(self, **kwargs):
-
-        scope = ''
-        if kwargs.get('private_to_vrf') == 'enabled':
-            scope ='private,'
-        if kwargs.get('advertised_externally') == 'enabled':
-            scope ='public,'
-        if kwargs.get('shared_between_vrfs') == 'enabled':
-            scope+='shared'
-        kwargs['scope'] = scope
-
+        kwargs['scope'] = self.convert_scope_string(**kwargs)
         payload = '''
         {{
             "fvSubnet": {{
@@ -283,7 +271,7 @@ class TenantHandler(object):
             }}
         }}
         '''.format(**kwargs)
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
         s = requests.Session()
         try:
             r = s.post('https://{}/api/node/mo/uni/tn-{}/BD-{}/subnet-[{}].json'
@@ -308,7 +296,6 @@ class TenantHandler(object):
                     "dn": "uni/tn-{tn_name}/ap-{anp_name}/epg-{epg_name}",
                     "name": "{epg_name}",
                     "rn": "epg-{epg_name}",
-                    "pcEnfPref": "{intra_epg_isolation}",
                     "status": "{action}"
                 }},
                 "children": [
@@ -324,7 +311,9 @@ class TenantHandler(object):
             }}
         }}
         '''.format(**kwargs)
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        print (payload)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
+
         s = requests.Session()
         try:
             r = s.post('https://{}/api/node/mo/uni/tn-{}/ap-{}/epg-{}.json'
@@ -354,7 +343,7 @@ class TenantHandler(object):
             }}
         }}
         '''.format(**kwargs)
-        payload = json.loads(payload, object_pairs_hook=collections.OrderedDict)
+        payload = json.loads(payload, object_pairs_hook=OrderedDict)
         print (payload)
         s = requests.Session()
         try:
@@ -371,7 +360,15 @@ class TenantHandler(object):
             status = 'Unknown Error'
         return status
 
-
+    def convert_scope_string(self, **kwargs):
+        scope = ''
+        if kwargs.get('private_to_vrf') == 'enabled':
+            scope = 'private,'
+        if kwargs.get('advertised_externally') == 'enabled':
+            scope = 'public,'
+        if kwargs.get('shared_between_vrfs') == 'enabled':
+            scope += 'shared'
+        return scope
 
 
 # -----------------------------------

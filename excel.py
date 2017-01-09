@@ -15,8 +15,7 @@ CP_CELLS_TO_RESET = (AUTH_STATUS_1, SCRIPT_STATUS_1,
 
 # Table named ranges used in excel
 TABLE_NAMES = ('TABLE_TENANT','TABLE_VRF','TABLE_ANP',
-               'TABLE_BD','TABLE_EPG','TABLE_EPG_DOMAIN',
-               'TABLE_BD_SUBNET')
+               'TABLE_BD','TABLE_EPG','TABLE_BD_SUBNET')
 
 # Default values to use if the row has an empty, non mandatory cell
 DEFAULT_VALUES = {'action': 'created',
