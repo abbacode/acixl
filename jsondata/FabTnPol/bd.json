@@ -1,0 +1,28 @@
+{
+    "fvBD": {
+        "attributes": {
+            "dn": "uni/tn-{{tn_name}}/BD-{{bd_name}}",
+            "mac": "00:22:BD:F8:19:FF",
+            "name": "{{bd_name}}",
+            "epMoveDetectMode": "",
+            "unicastRoute": "{{unicast_routing}}",
+            "arpFlood": "{{arp_flooding}}",
+            "unkMacUcastAct": "{{l2_unknown_unicast}}",
+            "unkMcastAct": "{{l3_unknown_mcast}}",
+            "multiDstPktAct": "{{mdst_flooding}}",
+            "limitIpLearnToSubnets": "{{limit_iplearn_subnet}}",
+            "descr": "{{description}}",
+            "status": "{{action}}"
+        },
+        "children": [
+            {
+                "fvRsCtx": {
+                    "attributes": {
+                        "tnFvCtxName": "{{vrf_name}}",
+                        "status": "{{action}},modified"
+                    }
+                }
+            }
+        ]
+    }
+}

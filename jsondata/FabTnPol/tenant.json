@@ -1,0 +1,10 @@
+{
+    "fvTenant": {
+        "attributes": {
+            "dn": "uni/tn-{{tn_name}}",
+			"name": "{{tn_name}}",
+            "descr": "{{description}}",
+            "status": "{{action}}"
+        }
+    }
+}
