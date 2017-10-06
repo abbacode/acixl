@@ -1,6 +1,8 @@
 import xlwings as xw
 
-wb = xw.Book('acixl (public).xlsm')
+WORKBOOK_NAME = 'runsheet.xlsm'
+
+wb = xw.Book(WORKBOOK_NAME)
 ws_apic   = wb.sheets['APIC']
 
 # APIC authentication cell locations
@@ -13,10 +15,11 @@ AUTH_STATUS_1 = '$B$3'
 AUTH_STATUS_2 = '$B$4'
 SCRIPT_STATUS_1 = '$C$5'
 SCRIPT_STATUS_2 = '$C$6'
+CONSOLE_CELL = '$E$3'
 
 # Control panel cells to reset when button is pushed
-CP_CELLS_TO_RESET = (AUTH_STATUS_1, SCRIPT_STATUS_1,
-                     AUTH_STATUS_2, SCRIPT_STATUS_2)
+CP_CELLS_TO_RESET = (AUTH_STATUS_1, AUTH_STATUS_2, SCRIPT_STATUS_1,
+                     SCRIPT_STATUS_2, CONSOLE_CELL)
 
 # Table named ranges used in excel
 TABLE_NAMES = ('TABLE_TENANT','TABLE_VRF','TABLE_ANP','TABLE_BD',
@@ -45,6 +48,7 @@ MANDATORY_VALUES = ('tn_name', 'anp_name', 'bd_name',
 
 # Font Colors
 COLOR_BLACK = 1
+COLOR_BLUE = 5
 
 # Background colors for cells
 COLOR_DEFAULT = (255,255,255,255) #white
@@ -69,7 +73,7 @@ def remove_invalid_rows(table):
                         #print('mandatory cell missing, deleting row: {}'.format(row))
                         del table[row]
                     update_cell(cell=status_cell,
-                                value='Aborted - missing fields',
+                                value='Row ignored - missing fields',
                                 bg_color=COLOR_IGNORED)
     return table
 
@@ -125,8 +129,8 @@ def get_status_codes_from_table(table_name):
     return status_code
 
 
-# update the script status field whenever a script is executed
-def update_script_status(table_name, script_msg='N/A'):
+# update the control plane status field whenever a script is executed
+def update_cp_status(table_name, script_msg='N/A'):
     table_status = get_status_codes_from_table(table_name)
 
     # update the cell to reference what action was executed
@@ -151,7 +155,7 @@ def update_script_status(table_name, script_msg='N/A'):
 
 def get_status_color(status_code):
     COLORS = {200: COLOR_PASS,
-              'Aborted - missing fields': COLOR_IGNORED}
+              'Row ignored - missing fields': COLOR_IGNORED}
     color = COLORS.get(status_code, COLOR_FAILED)
     return color
 
@@ -181,7 +185,7 @@ def update_auth_status(status_code):
                     'msg2': 'Post to page that does not exist',
                     'color': COLOR_FAILED},
               999: {'msg1': '999 - Unknown error occured',
-                    'msg2': 'Check network connectivity',
+                    'msg2': 'Check IP/connectivity',
                     'color': COLOR_FAILED}}
 
     if STATUS.get(status_code):
@@ -190,11 +194,7 @@ def update_auth_status(status_code):
         status_color = STATUS.get(status_code)['color']
         update_cell(cell=AUTH_STATUS_1, value=msg_1, bg_color=status_color)
         update_cell(cell=AUTH_STATUS_2, value=msg_2, bg_color=status_color)
-        if status_code != 200:
-            update_cell(cell=SCRIPT_STATUS_1, value='Script Aborted',
-                        font_color=1)
-            update_cell(cell=SCRIPT_STATUS_2, value=' ',
-                        font_color=1)
+
 
 # change the action field for a table
 def set_table_action(table_name, action):
@@ -206,21 +206,37 @@ def set_table_action(table_name, action):
         xw.Range(cell).value = action
         xw.Range(cell).color = color
 
+
+def set_all_table_action(action):
+    for table in TABLE_NAMES:
+        set_table_action(table, action)
+
+def update_console(row, table_name, uri, payload):
+    console_msg = 'Reading row: {}, from table: {}'.format(row+1,table_name)
+    console_msg += '\n\nPayload: {}'.format(payload)
+    console_msg += '\n\nPosting to URI: {}'.format(uri)
+    update_cell(cell=CONSOLE_CELL, value=console_msg, font_color=COLOR_BLUE)
+
+def update_console_cmd_not_found(cmd_name):
+    console_msg = 'Error, could not find: {}'.format(cmd_name),
+    update_cell(cell=CONSOLE_CELL, value=console_msg, font_color=COLOR_BLUE)
+
+
 # reset the status fields in the control panel
 def reset_table_control_panel():
     for cell in CP_CELLS_TO_RESET:
-        update_cell(cell=cell, value=' ')
+        update_cell(cell=cell, value='')
 
 # reset the status_code column for all tables
 def reset_table_status_column():
     for table in TABLE_NAMES:
+        print (table)
         t = xw.Range(table)
         for no, row in enumerate(t.value[2:]):
             cell = t[no + 2, 0].address
             xw.Range(cell).value = ''
             xw.Range(cell).color = COLOR_DEFAULT
 
-
-def set_all_table_action(action):
-    for table in TABLE_NAMES:
-        set_table_action(table, action)
+def clear_status():
+    reset_table_control_panel()
+    reset_table_status_column()

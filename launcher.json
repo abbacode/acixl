@@ -1,0 +1,44 @@
+{
+	"app_profile": {
+		"json_folder": "FabTnPol",
+		"script_msg": "Push app profile configuration",
+		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}",
+		"table_name": "TABLE_ANP",
+		"json_file": "app_profile.json"
+	},
+	"epg": {
+		"json_folder": "FabTnPol",
+		"script_msg": "Push EPG configuration",
+		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}/epg-{epg_name}",
+		"table_name": "TABLE_EPG",
+		"json_file": "epg.json"
+	},
+	"tenant": {
+		"json_folder": "FabTnPol",
+		"script_msg": "Push tenant configuration",
+		"json_uri": "mo/uni/tn-{tn_name}",
+		"table_name": "TABLE_TENANT",
+		"json_file": "tenant.json"
+	},
+	"bd_subnet": {
+		"json_folder": "FabTnPol",
+		"script_msg": "Push BD subnet configuration",
+		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
+		"table_name": "TABLE_BD_SUBNET",
+		"json_file": "bd_subnet.json"
+	},
+	"vrf": {
+		"json_folder": "FabTnPol",
+		"script_msg": "Push VRF configuration",
+		"json_uri": "mo/uni/tn-{tn_name}/ctx-{vrf_name}",
+		"table_name": "TABLE_VRF",
+		"json_file": "vrf.json"
+	},
+	"bd": {
+		"json_folder": "FabTnPol",
+		"script_msg": "Push bridge domain configuration",
+		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
+		"table_name": "TABLE_BD",
+		"json_file": "bd.json"
+	}
+}
