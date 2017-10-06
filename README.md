@@ -63,6 +63,7 @@ How to change the folder location [optional]
 Update the JSON_ROOT_FOLDER & LAUNCH_COMMANDS variable in aci.py to reflect the new folder location, i.e.
 
 JSON_ROOT_FOLDER = 'C:\\newpath\\jsondata\\'
+
 LAUNCH_COMMANDS = 'C:\\newpath\\launcher.json'
 
 To change the name of the runsheet, update the WORKBOOK_NAME variable in excel.py, i.e.
