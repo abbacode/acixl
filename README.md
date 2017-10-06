@@ -1,10 +1,8 @@
 # acixl
-ACIXL is an alternate excel based user interface used to configure Cisco ACI networks.
+Update Cisco APIC configuration directly from an Excel spreadsheet. There is no need to manually execute any scripts, and all interactions takes place through the use of buttons/macros.
 
-Excel allows bulk configuration to be directly pushed to the APIC controller through the use of buttons. No programming, or manual execution of scripts is required as all actions are performed directly from excel.
-
-DataNitro plugin for excel is required and can be obtained from:
-https://datanitro.com/
+Thanks to Carl Niger for publically sharing his .json library (which is used as part of this package):
+https://github.com/carlniger/acitool
 
 
 ====================
@@ -30,9 +28,21 @@ How to Install
 ===================================
 1. Unzip all contents into precise folder location:  C:\acixl\  (i.e aci/excel.py must be in this root directory)
 
-2. Install DataNitro (30 day trial available @ https://datanitro.com/)
+2. Install pywin32:
+https://sourceforge.net/projects/pywin32/files/pywin32/
 
-3. Install requests module
+3. Install the following modules:
+ - xlwings
+ - requests
+ - json
+ - jinja2
+
+4. From the CLI type:
+xlwings addin install
+
+5. Open the excel file acixl(public).xlsx
+
+6. Goto the visual basic editor -> tools -> references -> click xlwings
 
 note. Only tested on Windows 8.1 using Excel 2016
 
@@ -45,25 +55,19 @@ How to Use
 4. Click the Test Authentication button to ensure connectivity to APIC
 5. Click the push 'X' button, where X is tenant, VRF, ANP, etc.
 
-The worksheet will automatically shade cells with green/red/orange to indicate success or 
-
-failure for each row.
+The worksheet will automatically shade cells with green/red/orange to indicate success or failure for each row.
 
 ==============================================
 How to change the folder location [optional]
 ===============================================
-DataNitro seems to use absolute paths when importing python files in excel.  The only this can be changed is to manually remove all python files and re-add them.
 
-Instructions are as follows:
-
-1. Unzip all contents into desired folder location
-2. Open up acixl.xlsm workbook and goto the DataNitro tab
-3. Click 'remove' for every .py file
-4. Click 'import' and manually add every .py file in the folder/sub-folders
+Update the JSON_ROOT variable in aci.py to the folder the root folder that contains all the root data:
+JSON_ROOT = 'C:\\acixl\\jsondata\\'
 
 ================
 Todo
 ================
+* Add more tables
 * Expand tenant policies to include contracts, l3outs, dhcp policies, etc.
 * Add fabric policies
 * Add button to control panel that allows auto-populating of live configuration into excel
