@@ -58,18 +58,6 @@ TABLE_FABRIC_ACCESS_POLICIES = ["TABLE_CDP"]
 TABLES = {'Tenant_Policies': TABLE_TENANT_POLICIES,
           'Fabric_Access_Policies': TABLE_FABRIC_ACCESS_POLICIES}
 
-# Default values to use if the row has an empty, non mandatory cell
-DEFAULT_VALUES = {
-                  'policy_enforce': 'enforced',
-                  'policy_direction': 'ingress',
-                  'limit_iplearn_subnet': 'no',
-                  'unicast_routing': 'true',
-                  'treat_as_virtual_ip': 'false',
-                  'make_primary_ip': 'false',
-                  'private_to_vrf': 'false',
-                  'advertised_externally': 'false',
-                  'shared_between_vrfs': 'false'}
-
 # delete table rows that have missing mandatory keys
 def remove_invalid_rows(table, mandatory_keys):
     # make a copy of the table
