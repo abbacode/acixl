@@ -1,8 +1,8 @@
-The following tasks are required to add a new payload:
+The following tasks are required to add a new payload.
 
 1. Create a new file with the payload in json format and place under relevant sub-folder in \jsondata\ root directory, i.e.
 
-  - new.json will look like the output below
+  - An example of tenant.json is shown below
   - any values encompassed {{ }} will be replaced from excel run sheet based on the column name
 
 {
@@ -18,12 +18,12 @@ The following tasks are required to add a new payload:
 
 2. Create a new entry under launcher.json for the new payload, i.e.
 
-	"new_command": {
+	"tenant": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push xxxx configuration",
+		"script_msg": "Push Tenant configuration",
 		"json_uri": "mo/uni/tn-{tn_name}",
-		"table_name": "TABLE_NEW",
-		"json_file": "new.json",
+		"table_name": "TABLE_TENANT",
+		"json_file": "tenant.json",
 		"mandatory_keys": [
 			"action",
 			"tn_name"],
@@ -33,7 +33,7 @@ The following tasks are required to add a new payload:
 		}
 	},
 
-Note. Make sure to replace the values with the relevant information, i.e.
+Note. Make sure to the values contain the relevant information, i.e.
   - json_folder: the sub directory under the jsondata\ folder that the payload is located
   - json_file: the exact filename that contains the payload
   - json_uri: the uri that the payload needs to be pushed to
@@ -45,8 +45,8 @@ Note. Make sure to replace the values with the relevant information, i.e.
 3. Create a new table in the excel runsheet, i.e.
   - Select the relevant worksheet, i.e. Tenant_Policies
   - Create a new table using an existing table as an example
-  - Select the table range (starting from status_code as top left cell) and give it a name, i.e. TABLE_NEW
-  - Ensure the new table name is not already in use
+  - Select the table range (starting from status_code as top left cell) and give it a name, i.e. TABLE_TENANT
+  - Ensure the new table name does is not already in use 
   - Add as many columns as required, ensure they match with {{ }} values defined in step 1
 
 4. Add a new button with the following macro:
@@ -54,16 +54,15 @@ Note. Make sure to replace the values with the relevant information, i.e.
   - Macro can be added by pressing Alt-F11
   - Goto Modules\Module1
   - Copy and paste the data below
-  - Ensure the NewCmdName is changed to somethign relevant
-  - Ensure the 'new_cmd' is changed to reflect the name of the comand, i.e. 'new_Command' as defined in step 2
-
-Sub Push_NewCmdName_Button()
-RunPython ("from aci import run_from_excel; run_from_excel('newcmd')")
+  - Note the 'tenant' command must match the key name defined in step 2.
+  
+Sub Push_Tenant_Button()
+RunPython ("from aci import run_from_excel; run_from_excel('tenant')")
 End Sub
 
 
-4. Update excel.py and add the table name, to existing table list, i.e.
+5. Update excel.py and add the table name, to existing table list, i.e.
   
   TABLE_TENANT_POLICIES = ['TABLE_NEW']
 
-
+6. Press the button to execute the command
