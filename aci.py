@@ -27,7 +27,6 @@ class AciHandler(object):
             with open(LAUNCH_COMMANDS, 'r') as f:
                 self.commands = json.load(f)
         except Exception as e:
-            self.commands = {}
             excel.update_console_cmd_not_found(LAUNCH_COMMANDS)
 
     def login(self):
@@ -45,10 +44,8 @@ class AciHandler(object):
         s = requests.Session()
         excel.show_auth_attempt_msg()
         try:
-            r = s.post('https://{}/api/mo/aaaLogin.json'.format(self.apic),
-                       data=json.dumps(payload),
-                       verify=False,
-                       timeout=5)
+            uri = 'https://{}/api/mo/aaaLogin.json'.format(self.apic)
+            r = s.post(uri,data=json.dumps(payload), verify=False, timeout=5)
             status = r.status_code
             self.cookies = r.cookies
         except Exception as e:
@@ -85,16 +82,21 @@ class AciHandler(object):
             return
         # unpack command values from the dictionary
         script_msg = self.commands[cmd]['script_msg']
-        table_name  =  self.commands[cmd]['table_name']
+        table_name = self.commands[cmd]['table_name']
         json_folder = self.commands[cmd]['json_folder']
-        json_file   = self.commands[cmd]['json_file']
-        json_uri    = self.commands[cmd]['json_uri']
+        json_file = self.commands[cmd]['json_file']
+        json_uri = self.commands[cmd]['json_uri']
+        mandatory_keys = self.commands[cmd]['mandatory_keys']
+        default_values = self.commands[cmd]['default_values']
 
         # get data from the table in excel (i.e. TABLE_TENANT)
-        table = excel.get_table(table_name)
+        table = excel.get_table(table_name=table_name,
+                                mandatory_keys=mandatory_keys,
+                                default_values=default_values)
 
         #load up the jinja2 crap
-        template_loader = jinja2.FileSystemLoader(searchpath=(JSON_ROOT_FOLDER+json_folder))
+        template_loader = jinja2.FileSystemLoader(searchpath=(JSON_ROOT_FOLDER+
+                                                              json_folder))
         template_env = jinja2.Environment(loader=template_loader)
         template = template_env.get_template(json_file)
 
@@ -112,15 +114,15 @@ class AciHandler(object):
             full_uri = APIC_URI.format(apic=self.apic, payload_uri=row_uri)
 
             # update the console cell in excel to show the output
-            excel.update_console(row=int(row),table_name=table_name,
-                                 uri=full_uri,payload=row_payload)
+            excel.show_console_payload(row=int(row),table_name=table_name,
+                                         uri=full_uri,payload=row_payload)
 
             # post the payload and get the status result
             status = self.post(full_uri,row_payload)
 
             #update the cell with the status result
-            cell_to_update = table[row]['status_cell']
-            excel.update_cell_status(cell_to_update, status)
+            row_status_location = table[row]['status_cell']
+            excel.update_status(row_status_location, status)
 
         # update status for the overall exceution of the script
         excel.update_cp_status(table_name=table_name,script_msg=script_msg)

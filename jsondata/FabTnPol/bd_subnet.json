@@ -13,9 +13,9 @@
                         "ip": "{{subnet}}",
                         "name": "",
                         "rn": "subnet-[{{subnet}}]",
-                        "virtual": "{{treat_as_virtual_ip}}",
-                        "preferred": "{{make_primary_ip}}",
                         "scope": "{{scope}}",
+                        "preferred": "no",
+                        "virtual": "no",
                         "descr": "{{description}}",
                         "status": "{{action}}"
                     }

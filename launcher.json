@@ -4,41 +4,97 @@
 		"script_msg": "Push app profile configuration",
 		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}",
 		"table_name": "TABLE_ANP",
-		"json_file": "app_profile.json"
+		"json_file": "app_profile.json",
+		"mandatory_keys": [
+			"action",
+			"tn_name",
+			"anp_name"],
+		"default_values": {}
 	},
 	"epg": {
 		"json_folder": "FabTnPol",
 		"script_msg": "Push EPG configuration",
 		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}/epg-{epg_name}",
 		"table_name": "TABLE_EPG",
-		"json_file": "epg.json"
+		"json_file": "epg.json",
+		"mandatory_keys": [
+			"action",
+			"tn_name",
+			"anp_name",
+			"bd_name",
+			"epg_name"],
+		"default_values": {}
 	},
 	"tenant": {
 		"json_folder": "FabTnPol",
 		"script_msg": "Push tenant configuration",
 		"json_uri": "mo/uni/tn-{tn_name}",
 		"table_name": "TABLE_TENANT",
-		"json_file": "tenant.json"
+		"json_file": "tenant.json",
+		"mandatory_keys": [
+			"action",
+			"tn_name"],
+		"default_values": {}
 	},
 	"bd_subnet": {
 		"json_folder": "FabTnPol",
 		"script_msg": "Push BD subnet configuration",
 		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
 		"table_name": "TABLE_BD_SUBNET",
-		"json_file": "bd_subnet.json"
+		"json_file": "bd_subnet.json",
+		"mandatory_keys": [
+			"action",
+			"tn_name",
+			"bd_name",
+			"subnet"],
+		"default_values": {
+			"private_to_vrf": "disabled",
+			"advertised_externally": "disabled",
+			"shared_between_vrfs": "disabled"}
 	},
 	"vrf": {
 		"json_folder": "FabTnPol",
 		"script_msg": "Push VRF configuration",
 		"json_uri": "mo/uni/tn-{tn_name}/ctx-{vrf_name}",
 		"table_name": "TABLE_VRF",
-		"json_file": "vrf.json"
+		"json_file": "vrf.json",
+		"mandatory_keys": [
+			"action",
+			"tn_name",
+			"vrf_name"],
+		"default_values": {
+			"policy_enforce": "enforced",
+			"policy_direction": "ingress"}
 	},
 	"bd": {
 		"json_folder": "FabTnPol",
 		"script_msg": "Push bridge domain configuration",
 		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
 		"table_name": "TABLE_BD",
-		"json_file": "bd.json"
+		"json_file": "bd.json",
+		"mandatory_keys": [
+			"action",
+			"tn_name",
+			"vrf_name",
+			"bd_name"],
+		"default_values": {
+			"l2_unknown_unicast": "proxy",
+			"l3_unknown_mcast":"flood",
+			"mdst_flooding": "bd-flood",
+			"arp_flooding": "false",
+			"limit_iplearn_subnet": "no",
+			"unicast_routing": "true"}
+	},
+		"cdp": {
+		"json_folder": "FabAccPol",
+		"script_msg": "Push CDP configuration",
+		"json_uri": "mo/uni/infra/cdpIfP-{name}",
+		"table_name": "TABLE_CDP",
+		"json_file": "cdp.json",
+		"mandatory_keys": [
+			"action",
+			"name",
+			"state"],
+		"default_values": {}
 	}
 }
