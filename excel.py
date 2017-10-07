@@ -83,11 +83,11 @@ def apply_default_values(table, default_values):
         for d in default_values:
             #console_msg+='\nprocessing: {}'.format(d)
             #update_console(msg=console_msg)
-            value = table[row].get(d)
+            current_value = table[row].get(d)
             #console_msg += '\n  --current value: {}'.format(value)
-            if value == None:
-                default_value = default_values[d]
-                table[row][d] = default_value
+            if current_value == None:
+                new_value = default_values[d]
+                table[row][d] = new_value
                 #console_msg+='\n     Value changed to: {}'.format(default_value)
                 #update_console(msg=console_msg)
 
