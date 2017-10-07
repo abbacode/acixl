@@ -23,9 +23,9 @@ An example of pushing a partially successful policy:
 An example of pushing a failed policy:
 ![Alt attribute text Here](screenshots/execute_example_failure.PNG)
 
-===================================
+
 How to Install
-===================================
+=======================
 1. Unzip all contents into precise folder location:  C:\acixl\  
 
 2. Install pywin32:
@@ -45,9 +45,9 @@ xlwings addin install
 
 note. Only tested on Windows 8.1 & Windows 10 using Excel 2016
 
-===================================
+
 How to Use
-===================================
+=======================
 1. Open up runsheet.xlsm
 2. Under the APIC tab enter the apic controller IP, username and password
 3. Under the Tenant Policies tab, add as many rows as required under relevant table
@@ -56,11 +56,14 @@ How to Use
 
 The worksheet will automatically shade cells with green/red/orange to indicate success or failure for each row.
 
-==============================================
-How to change the folder location [optional]
-===============================================
 
-Update the JSON_ROOT_FOLDER & LAUNCH_COMMANDS variable in aci.py to reflect the new folder location, i.e.
+How to change the folder location [optional]
+=======================
+
+1. Update the JSON_ROOT_FOLDER variable in aci.py
+2. Update the LAUNCH_COMMANDS variable in aci.py
+
+An example
 
 JSON_ROOT_FOLDER = 'C:\\\newpath\\\jsondata\\\'
 
@@ -70,7 +73,7 @@ To change the name of the runsheet, update the WORKBOOK_NAME variable in excel.p
 
 WORKBOOK_NAME = 'newname.xlsm'
 
-================
+
 Todo
 ================
 * Add fabric policies
