@@ -1,22 +1,24 @@
 {
-	"app_profile": {
+	"app_profiles": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push app profile configuration",
-		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}",
-		"table_name": "TABLE_ANP",
 		"json_file": "app_profile.json",
+		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}",
+		"action_msg": "Push app profile configuration",
+		"table_name": "TABLE_ANP",
+		"worksheet_name": "Tenant_Policies",
 		"mandatory_keys": [
 			"action",
 			"tn_name",
 			"anp_name"],
 		"default_values": {}
 	},
-	"epg": {
+	"epgs": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push EPG configuration",
-		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}/epg-{epg_name}",
-		"table_name": "TABLE_EPG",
 		"json_file": "epg.json",
+		"json_uri": "mo/uni/tn-{tn_name}/ap-{anp_name}/epg-{epg_name}",
+		"action_msg": "Push EPG configuration",
+		"table_name": "TABLE_EPG",
+		"worksheet_name": "Tenant_Policies",
 		"mandatory_keys": [
 			"action",
 			"tn_name",
@@ -25,12 +27,13 @@
 			"epg_name"],
 		"default_values": {}
 	},
-	"tenant": {
+	"tenants": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push tenant configuration",
-		"json_uri": "mo/uni/tn-{tn_name}",
-		"table_name": "TABLE_TENANT",
 		"json_file": "tenant.json",
+		"json_uri": "mo/uni/tn-{tn_name}",
+		"action_msg": "Push tenant configuration",
+		"table_name": "TABLE_TENANT",
+		"worksheet_name": "Tenant_Policies",
 		"mandatory_keys": [
 			"action",
 			"tn_name"],
@@ -38,10 +41,11 @@
 	},
 	"bd_subnet": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push BD subnet configuration",
-		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
-		"table_name": "TABLE_BD_SUBNET",
 		"json_file": "bd_subnet.json",
+		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
+		"action_msg": "Push BD subnet configuration",
+		"table_name": "TABLE_BD_SUBNET",
+		"worksheet_name": "Tenant_Policies",
 		"mandatory_keys": [
 			"action",
 			"tn_name",
@@ -52,12 +56,13 @@
 			"advertised_externally": "disabled",
 			"shared_between_vrfs": "disabled"}
 	},
-	"vrf": {
+	"vrfs": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push VRF configuration",
-		"json_uri": "mo/uni/tn-{tn_name}/ctx-{vrf_name}",
-		"table_name": "TABLE_VRF",
 		"json_file": "vrf.json",
+		"json_uri": "mo/uni/tn-{tn_name}/ctx-{vrf_name}",
+		"action_msg": "Push VRF configuration",
+		"table_name": "TABLE_VRF",
+		"worksheet_name": "Tenant_Policies",
 		"mandatory_keys": [
 			"action",
 			"tn_name",
@@ -66,12 +71,13 @@
 			"policy_enforce": "enforced",
 			"policy_direction": "ingress"}
 	},
-	"bd": {
+	"bridge_domains": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push bridge domain configuration",
-		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
-		"table_name": "TABLE_BD",
 		"json_file": "bd.json",
+		"json_uri": "mo/uni/tn-{tn_name}/BD-{bd_name}",
+		"action_msg": "Push bridge domain configuration",
+		"table_name": "TABLE_BD",
+		"worksheet_name": "Tenant_Policies",
 		"mandatory_keys": [
 			"action",
 			"tn_name",
@@ -85,16 +91,61 @@
 			"limit_iplearn_subnet": "no",
 			"unicast_routing": "true"}
 	},
-		"cdp": {
+	"cdp": {
 		"json_folder": "FabAccPol",
-		"script_msg": "Push CDP configuration",
-		"json_uri": "mo/uni/infra/cdpIfP-{name}",
-		"table_name": "TABLE_CDP",
 		"json_file": "cdp.json",
+		"json_uri": "mo/uni/infra/cdpIfP-{name}",
+		"action_msg": "Push CDP configuration",
+		"table_name": "TABLE_CDP",
+		"worksheet_name": "Fabric_Access_Policies",
 		"mandatory_keys": [
 			"action",
 			"name",
 			"state"],
 		"default_values": {}
+	},
+	"lldp": {
+		"json_folder": "FabAccPol",
+		"json_file": "lldp.json",
+		"json_uri": "mo/uni/infra/lldpIfP-{name}",
+		"action_msg": "Push LLDP configuration",
+		"table_name": "TABLE_LLDP",
+		"worksheet_name": "Fabric_Access_Policies",
+		"mandatory_keys": [
+			"action",
+			"name",
+			"state"],
+		"default_values": {}
+	},
+		"link_policy": {
+		"json_folder": "FabAccPol",
+		"json_file": "link.json",
+		"json_uri": "mo/uni/infra/hintfpol-{name}",
+		"action_msg": "Push Link Level Policy configuration",
+		"table_name": "TABLE_LINK_POLICY",
+		"worksheet_name": "Fabric_Access_Policies",
+		"mandatory_keys": [
+			"action",
+			"name",
+			"speed",
+			"auto_neg"],
+		"default_values": {}
+	},
+		"vlan_pools": {
+		"json_folder": "FabAccPol",
+		"json_file": "vl_pool.json",
+		"json_uri": "mo/uni/infra/vlanns-[{name}]-{mode}",
+		"action_msg": "Push VLAN Pool configuration",
+		"table_name": "TABLE_VLAN_POOL",
+		"worksheet_name": "Fabric_Access_Policies",
+		"mandatory_keys": [
+			"action",
+			"name",
+			"mode",
+			"start",
+			"end",
+			"range_mode"],
+		"default_values": {
+			"range_mode": "static"}
 	}
 }

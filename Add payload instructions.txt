@@ -1,10 +1,21 @@
-The following tasks are required to add a new payload.
+============================================
+ Overview for adding new payload into ACIXL
+============================================
 
-1. Create a new file with the payload in json format and place under relevant sub-folder in \jsondata\ root directory, i.e.
+1. Create a new file with the payload structure
+2. Update launcher.json with a new entry for the new payload
+3. Create a table in excel and assign it a dynamic name
+4. Press the refresh launcher button in excel
 
-  - An example of tenant.json is shown below
-  - any values encompassed {{ }} will be replaced from excel run sheet based on the column name
+ These steps are described in more detail below:
 
+===================================================
+1 .Create a new file with the payload structure
+====================================================
+* Create a new file representing the payload and place it under \jsondata\<sub directory>\
+* Example output for the file:
+
+Example of how the file should appear:
 {
     "fvTenant": {
         "attributes": {
@@ -16,14 +27,17 @@ The following tasks are required to add a new payload.
     }
 }
 
-2. Create a new entry under launcher.json for the new payload, i.e.
-
+note. The values encompassed in {{ }} will automatically be replaced from the table data in excel.
+==========================================================
+2. Update launcher.json with a new entry for the payload
+===========================================================
 	"tenant": {
 		"json_folder": "FabTnPol",
-		"script_msg": "Push Tenant configuration",
-		"json_uri": "mo/uni/tn-{tn_name}",
-		"table_name": "TABLE_TENANT",
 		"json_file": "tenant.json",
+		"json_uri": "mo/uni/tn-{tn_name}",
+		"action_msg": "Push Tenant configuration",
+		"worksheet_name": "Tenant_Policies",
+		"table_name": "TABLE_TENANT",
 		"mandatory_keys": [
 			"action",
 			"tn_name"],
@@ -34,35 +48,24 @@ The following tasks are required to add a new payload.
 	},
 
 Note. Make sure to the values contain the relevant information, i.e.
+  - "tenant": a unique name to identify this payload, appears in excel
   - json_folder: the sub directory under the jsondata\ folder that the payload is located
   - json_file: the exact filename that contains the payload
   - json_uri: the uri that the payload needs to be pushed to
-  - script_msg: msg that appear in excel when this payload is pushed
+  - action_msg: msg that appear in excel when this payload is pushed
+  - worksheet_name: name of the worksheet where the table is located
   - table_name: name of the table in the excel run sheet that has the values
   - mandatory_keys: what column names are mandatory for the row to be considered valid
   - default_values: default values for non-mandatory columns
 
-3. Create a new table in the excel runsheet, i.e.
-  - Select the relevant worksheet, i.e. Tenant_Policies
+=============================================
+3. Create a new table in the excel run sheet
+=============================================
   - Create a new table using an existing table as an example
   - Select the table range (starting from status_code as top left cell) and give it a name, i.e. TABLE_TENANT
   - Ensure the new table name does is not already in use 
   - Add as many columns as required, ensure they match with {{ }} values defined in step 1
 
-4. Add a new button with the following macro:
-
-  - Macro can be added by pressing Alt-F11
-  - Goto Modules\Module1
-  - Copy and paste the data below
-  - Note the 'tenant' command must match the key name defined in step 2.
-  
-Sub Push_Tenant_Button()
-RunPython ("from aci import run_from_excel; run_from_excel('tenant')")
-End Sub
-
-
-5. Update excel.py and add the table name, to existing table list, i.e.
-  
-  TABLE_TENANT_POLICIES = ['TABLE_NEW']
-
-6. Press the button to execute the command
+=============================================
+4. Press the Refresh launcher button in excel
+=============================================

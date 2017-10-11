@@ -4,7 +4,7 @@
             "allocMode": "{{mode}}",
             "dn": "uni/infra/vlanns-[{{name}}]-{{mode}}",
             "name": "{{name}}",
-            "status": "{{status}}"
+            "status": "{{action}}"
         },
         "children": [
             {
@@ -13,7 +13,7 @@
                         "allocMode": "{{range_mode}}",
                         "from": "vlan-{{start}}",
                         "to": "vlan-{{end}}",
-                        "status": "{{status}}"
+                        "status": "{{action}}"
                     }
                 }
             }

@@ -6,7 +6,7 @@
             "adminRxSt": "{{state}}",
             "adminTxSt": "{{state}}",
             "rn": "lldpIfP-{{name}}",
-            "status": "{{status}}"
+            "status": "{{action}}"
         }
     }
 }
